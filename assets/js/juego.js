@@ -6,17 +6,34 @@
         'use strict'
 
         let deck = [];
-        const tipos = ['C', 'D', 'H', 'S'];
-        const especiales = ['A', 'J', 'Q', 'K'];
-        let puntosJugador = 0, puntosComputadora = 0;
+        const tipos = ['C', 'D', 'H', 'S'], especiales = ['A', 'J', 'Q', 'K'];
+        // let puntosJugador = 0, puntosComputadora = 0;
+        let puntosJugadores = [];
 
         //Referencias HTML
-        const btnNuevo = document.querySelector('#btn_nuevo');
-        const btnPedir = document.querySelector('#btn_pedir');
-        const btnDetener = document.querySelector('#btn_detener');
-        const divCartasJugador = document.querySelector('#jugador-cartas');
-        const divCartasComputadora = document.querySelector('#computadora-cartas');
-        const elmPuntosJugador = document.querySelectorAll('small');
+        const btnNuevo = document.querySelector('#btn_nuevo'),
+            btnPedir = document.querySelector('#btn_pedir'),
+            btnDetener = document.querySelector('#btn_detener'),
+            divCartasJugador = document.querySelector('#jugador-cartas'),
+            divCartasComputadora = document.querySelector('#computadora-cartas'),
+            elmPuntosJugador = document.querySelectorAll('small');
+
+        const nuevoJuego = (numeroJugadores = 2) => {
+            // Inicializar el Deck
+            deck = crearDeck();
+
+            for (let i = 0; i < numeroJugadores; I++) { puntosJugadores = 0; }
+            // puntosJugador = 0;
+            // puntosComputadora = 0;
+            elmPuntosJugador[0].innerText = 0;
+            elmPuntosJugador[1].innerText = 0;
+            // Limpiar cartas
+            divCartasJugador.innerHTML = '';
+            divCartasComputadora.innerHTML = '';
+            // Habilitar botones
+            btnPedir.disabled = false;
+            btnDetener.disabled = false;
+        }
 
         const crearDeck = () => {
             for (let i = 2; i <= 10; i++) {
@@ -32,8 +49,7 @@
             }
 
             // console.log(deck);
-            deck = _.shuffle(deck);
-            return deck;
+            return _.shuffle(deck);
         }
 
         crearDeck();
@@ -43,9 +59,7 @@
             // Evitar deck vacío
             if (deck.length === 0) throw ('No hay más cartas');
 
-            const carta = deck.pop();
-
-            return carta;
+            return deck.pop();
         }
 
         // pedirCarta();
@@ -54,6 +68,11 @@
             const valor = carta.substring(0, carta.length - 1);
 
             return (isNaN(valor) ? (valor === 'A' ? 11 : 10) : (valor * 1));
+        }
+
+        //
+        const acumularPuntos = () => {
+
         }
 
         // Turno de la computadora
@@ -87,22 +106,6 @@
             } else if (puntosComputadora > 21) {
                 console.info('Ganaste...! XD');
             } else { console.info('Perdiste contra la computadora...!'); }
-        }
-
-        const nuevoJuego = () => {
-            // Inicializar el Deck
-            deck = [];
-            deck = crearDeck();
-            puntosJugador = 0;
-            puntosComputadora = 0;
-            elmPuntosJugador[0].innerText = 0;
-            elmPuntosJugador[1].innerText = 0;
-            // Limpiar cartas
-            divCartasJugador.innerHTML = '';
-            divCartasComputadora.innerHTML = '';
-            // Habilitar botones
-            btnPedir.disabled = false;
-            btnDetener.disabled = false;
         }
 
         //Eventos
